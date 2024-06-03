@@ -1,7 +1,7 @@
 # ball-in-to-cup
 pre-eng 10-20 made in 2024
 
-Certainly! Let's break down the code you've provided:
+Let's break down the code for you
 
 ```cpp
 #include <IRremote.h> // Include the IRremote library to use IR sensors and remotes.
