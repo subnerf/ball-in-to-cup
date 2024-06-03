@@ -1,64 +1,49 @@
 # ball-in-to-cup
 pre-eng 10-20 made in 2024
 
-Certainly! The code you’ve provided is for an Arduino-based project that uses an infrared (IR) remote control to trigger a function. Let’s break it down:
+Certainly! Let's break down the code you've provided:
 
-Certainly! Let's break down the code snippet you've provided. It's written in C++ and is meant for an Arduino microcontroller, which is a popular platform for electronics projects.
+```cpp
+#include <IRremote.h> // Include the IRremote library to use IR sensors and remotes.
 
-1. **Library Inclusion**:
-   ```cpp
-   #include <IRremote.h>
-   ```
-   This line includes the IRremote library, which is a collection of functions and commands that help the Arduino to communicate with infrared (IR) devices.
+const int RECV_PIN = 7; // Define the pin number connected to the IR receiver.
+IRrecv irrecv(RECV_PIN); // Create an instance of the IRrecv class to handle IR reception.
+decode_results results; // Create a variable to store the results of the IR decoding.
+unsigned long startTime = 0; // Variable to store the start time of an action.
 
-2. **Variable Initialization**:
-   ```cpp
-   const int RECV_PIN = 7;
-   IRrecv irrecv(RECV_PIN);
-   decode_results results;
-   ```
-   - `RECV_PIN` is a constant integer set to 7, representing the pin number on the Arduino where the IR receiver is connected.
-   - `irrecv` is an object created from the `IRrecv` class, initialized with `RECV_PIN`.
-   - `results` is a variable of type `decode_results`, which will store the data received from the IR sensor.
+void setup() {
+  Serial.begin(9600); // Initialize serial communication at 9600 bits per second.
+  irrecv.enableIRIn(); // Start the receiver object to listen for IR signals.
+  irrecv.blink13(true); // Enable blinking the LED on pin 13 when receiving IR signals.
+}
 
-3. **Setup Function**:
-   ```cpp
-   void setup() {
-     Serial.begin(9600);
-     irrecv.enableIRIn();
-     irrecv.blink13(true);
-   }
-   ```
-   - `Serial.begin(9600);` starts serial communication at a baud rate of 9600 bits per second.
-   - `irrecv.enableIRIn();` activates the IR receiver to start receiving IR signals.
-   - `irrecv.blink13(true);` makes the onboard LED blink when an IR signal is received.
+void move_forward() {
+  // This function is intended to control motors to move something forward.
+  digitalWrite(12, HIGH); // Set digital pin 12 to HIGH, likely to enable a motor driver.
+  digitalWrite(13, HIGH); // Set digital pin 13 to HIGH, likely for the same reason.
+  analogWrite(10, 255); // Write an analog value to pin 10, fully powering a motor.
+  digitalWrite(13, HIGH); // Set digital pin 13 to HIGH again, which seems redundant.
+  analogWrite(11, 255); // Write an analog value to pin 11, fully powering another motor.
+  startTime = millis(); // Store the current time in milliseconds.
+}
 
-4. **Custom Function - move_forward**:
-   ```cpp
-   void move_forward() {
-     digitalWrite(12, HIGH);
-     digitalWrite(13, HIGH);
-     analogWrite(10, 255);
-     digitalWrite(13, HIGH);
-     analogWrite(11, 255);
-   }
-   ```
-   This function, when called, will set digital pins 12 and 13 to `HIGH`, which likely powers motors or other actuators to move forward. It also writes a maximum analog value of 255 to pins 10 and 11, which could control the speed of the motors.
+void loop() {
+  if (irrecv.decode(&results)) { // Check if data has been received from the IR remote.
+    Serial.println(results.value, HEX); // Print the value of the received IR signal in HEX format.
+    if (startTime == 0) { // Check if the move_forward function has not been called yet.
+      move_forward(); // Call the move_forward function to start the action.
+    }
+    irrecv.resume(); // Prepare to receive the next IR signal.
+  }
 
-5. **Loop Function**:
-   ```cpp
-   void loop() {
-     if (irrecv.decode(&results)) {
-       Serial.println(results.value, HEX);
-       move_forward(); // Call the function to move forward
-       irrecv.resume();
-     }
-   }
-   ```
-   - The `loop()` function runs continuously after `setup()`.
-   - `if (irrecv.decode(&results))` checks if any IR signal is decoded and stores it in `results`.
-   - `Serial.println(results.value, HEX);` prints the value of the received IR signal in hexadecimal format to the serial monitor.
-   - `move_forward();` calls the `move_forward` function to perform an action, presumably moving a robot forward.
-   - `irrecv.resume();` prepares the IR receiver to receive the next signal.
+  if (startTime != 0 && millis() - startTime > 10000) { // Check if 10 seconds have passed since move_forward was called.
+    // Stop the motors after 10 seconds.
+    digitalWrite(12, LOW); // Set digital pin 12 to LOW, likely stopping a motor.
+    digitalWrite(13, LOW); // Set digital pin 13 to LOW, likely stopping another motor.
+    analogWrite(10, 0); // Write an analog value of 0 to pin 10, stopping the motor.
+    analogWrite(11, 0); // Write an analog value of 0 to pin 11, stopping the motor.
+  }
+}
+```
 
-This code is set up to receive IR signals, perform an action when a signal is received, and print the signal value to the serial monitor. It's commonly used in remote-controlled robotics to interpret signals from an IR remote control. The `move_forward` function suggests that this particular code is used to control a robot's forward movement.
+This code appears to be for a microcontroller setup that uses an infrared (IR) remote to trigger a motor-driven action, such as moving a robot forward. When an IR signal is received, the `move_forward` function is called, which powers the motors for 10 seconds before stopping them. There's a small redundancy with setting pin 13 to HIGH twice in the `move_forward` function, which might be a mistake or have a specific purpose not clear from the code alone. The use of `Serial.println` is for debugging purposes, allowing the user to see the received IR signal values.
