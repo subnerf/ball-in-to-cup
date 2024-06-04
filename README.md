@@ -3,7 +3,6 @@ pre-eng 10-20 made in 2024
 
 Let's break down the code for you
 
-```cpp
 #include <IRremote.h> // Include the IRremote library to use IR sensors and remotes.
 
 const int RECV_PIN = 7; // Define the pin number connected to the IR receiver.
@@ -36,7 +35,7 @@ void loop() {
     irrecv.resume(); // Prepare to receive the next IR signal.
   }
 
-  if (startTime != 0 && millis() - startTime >   if (startTime != 0 && millis() - startTime > 3500) ) { // Check if 3.5 seconds have passed since move_forward was called.
+  if (startTime != 0 && millis() - startTime > 3500) { // Check if 3.5 seconds have passed since move_forward was called.
     // Stop the motors after 3.5 seconds.
     digitalWrite(12, LOW); // Set digital pin 12 to LOW, likely stopping a motor.
     digitalWrite(13, LOW); // Set digital pin 13 to LOW, likely stopping another motor.
@@ -44,6 +43,5 @@ void loop() {
     analogWrite(11, 0); // Write an analog value of 0 to pin 11, stopping the motor.
   }
 }
-```
 
 This code appears to be for a microcontroller setup that uses an infrared (IR) remote to trigger a motor-driven action, such as moving a robot forward. When an IR signal is received, the `move_forward` function is called, which powers the motors for 3.5 seconds before stopping them. There's a small redundancy with setting pin 13 to HIGH twice in the `move_forward` function, which might be a mistake or have a specific purpose not clear from the code alone. The use of `Serial.println` is for debugging purposes, allowing the user to see the received IR signal values.
