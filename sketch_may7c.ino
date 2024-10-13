@@ -35,6 +35,6 @@ void loop() {
     digitalWrite(12, LOW); // Set digital pin 12 to LOW, likely stopping a motor.
     digitalWrite(13, LOW); // Set digital pin 13 to LOW, likely stopping another motor.
     analogWrite(10, 0); // Write an analog value of 0 to pin 10, stopping the motor.
-    analogWrite(11, 0); // Write an analog value of 0 to pin 11, stopping the motor and I am sorry if you don't get this.
+    analogWrite(11, 0); // Write an analog value of 0 to pin 11, stopping the motor and I am sorry if you don't get this and this was made by a protogen.
   }
 }
