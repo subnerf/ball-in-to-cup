@@ -21,6 +21,10 @@ Here's a breakdown of the code:
 
 8. `void loop() {...}`: This function runs continuously after the `setup()` function. It checks if data has been received from the IR remote, prints the value of the received IR signal in HEX format, calls the `move_forward()` function to start the action if it hasn't been called yet, and prepares to receive the next IR signal. If 3.5 seconds have passed since `move_forward()` was called, it stops the motors.
 
-This code is a simple example of how to use an IR remote to control a device with an Arduino. The device could be a robot, a car, or any other device that can be controlled with motors. The `move_forward()` function would need to be customized to match the specific hardware setup of the device. The code also assumes that the IR remote sends a specific signal that triggers the `move_forward()` function, but it doesn't specify what that signal is. This would also need to be customized based on the specific IR remote being used. and im a protogen and im sorry if dus not work in the future this is c++ the school program to convert blocks into c++ is bad and slow doing this raw is better i did it in Visual Studio Code and 
+This code is a simple example of how to use an IR remote to control a device with an Arduino. The device could be a robot, a car, or any other device that can be controlled with motors. The `move_forward()` function would need to be customized to match the specific hardware setup of the device. The code also assumes that the IR remote sends a specific signal that triggers the `move_forward()` function, but it doesn't specify what that signal is. This would also need to be customized based on the specific IR remote being used.
+
+
+
+im a protogen and im sorry if dus not work in the future this is c++ the school program to convert blocks into c++ is bad and slow doing this raw is better i did it in Visual Studio Code and 
 inport in the Arduino with the Arduino ide 
 software you can do it.
